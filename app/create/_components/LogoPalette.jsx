@@ -4,13 +4,13 @@ import HeadingDesc from "./HeadingDesc";
 import Lookup from "@/app/_data/Lookup";
 import Colors from "@/app/_data/Colors";
 
-function LogoPalette({ onHandleInputChange}) {
-  const [selectedOption, setSelectedOption] = useState();
+function LogoPalette({ onHandleInputChange,formdata}) {
+  const [selectedOption, setSelectedOption] = useState(formdata?.palette);
   return (
     <div className="my-10">
       <HeadingDesc
         title={Lookup.LogoColorPaletteTitle}
-        description={Lookup.LogoColorPaletteDesc}
+        desc={Lookup.LogoColorPaletteDesc}
       />
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-5 mt-5">
