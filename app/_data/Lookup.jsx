@@ -40,7 +40,7 @@ export default{
                 '⚫ Only 5 Credits',
                 
             ],
-            button:'Generate Free'
+            button:'Generate For 1 Credit'
         }
     ],
 }

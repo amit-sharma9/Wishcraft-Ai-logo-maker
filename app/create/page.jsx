@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import LogoTitle from "./_components/LogoTitle";
 import LogoDesc from "./_components/LogoDesc";
 import LogoIdea from "./_components/LogoIdea";
@@ -9,6 +9,7 @@ import LogoPalette from "./_components/LogoPalette";
 
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Heading2 } from "lucide-react";
+import PricingModel from "./_components/PricingModel";
 
 export default function Create() {
   const [step, setStep] = useState(1);
@@ -19,33 +20,45 @@ export default function Create() {
       [field]: value,
     }));
   };
-useEffect(() => {
-  console.log("Updated formdata:", formdata);
-}, [formdata]);
+  useEffect(() => {
+    console.log("Updated formdata:", formdata);
+  }, [formdata]);
 
   return (
     <div className="mt-12 p-10 pt-2 border rounded-xl ">
-      {step == 1 ? 
+      {step == 1 ? (
         <LogoTitle
           onHandleInputChange={(v) => onHandleInputChange("title", v)}
-       formdata={formdata} /> :
-        step == 2 ? 
+          formdata={formdata}
+        />
+      ) : step == 2 ? (
         <LogoDesc
           onHandleInputChange={(v) => onHandleInputChange("desc", v)}
-        formdata={formdata}/> :
-        step == 3 ? 
+          formdata={formdata}
+        />
+      ) : step == 3 ? (
         <LogoPalette
           onHandleInputChange={(v) => onHandleInputChange("palette", v)}
-        formdata={formdata}/> :
-        step == 4 ? 
+          formdata={formdata}
+        />
+      ) : step == 4 ? (
         <LogoDesign
           onHandleInputChange={(v) => onHandleInputChange("design", v)}
-       formdata={formdata} /> :
-        step == 5 ? 
+          formdata={formdata}
+        />
+      ) : step == 5 ? (
         <LogoIdea
           onHandleInputChange={(v) => onHandleInputChange("idea", v)}
-       formdata={formdata} /> :
-        <h2>This is the end </h2>}
+          formdata={formdata}
+        />
+      ) : step == 6 ? (
+        <PricingModel
+          formdata={formdata}
+          onHandleInputChange={(v) => onHandleInputChange("pricing", v)}
+        />
+      ) : (
+        <h2>This is the end </h2>
+      )}
 
       <div className="flex items-center justify-between mt-10">
         {step != 1 && (
@@ -55,9 +68,11 @@ useEffect(() => {
             Previous
           </Button>
         )}
-        <Button onClick={() => setStep((step + 1))}>
-          Continue <ArrowRight></ArrowRight>
-        </Button>
+        {step !== 6 && (
+          <Button onClick={() => setStep(step + 1)}>
+            Continue <ArrowRight />
+          </Button>
+        )}
       </div>
     </div>
   );
