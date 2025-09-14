@@ -3,8 +3,14 @@ import HeadingDesc from "./HeadingDesc";
 import React from "react";
 import Image from "next/image";  
 import { Button } from "@/components/ui/button";
+import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function PricingModel({formdata}) {
+    const { user } = useUser();
+    const router = useRouter();
+
      useEffect(() => {
     if (formdata?.title && typeof window !== "undefined") {
       localStorage.setItem("formData", JSON.stringify(formdata));
@@ -39,7 +45,23 @@ export default function PricingModel({formdata}) {
                 </h2>
               ))}
             </div>
-            <Button className="mt-5">{pricing.button}</Button>
+            {user ? (
+              <Button
+                className="mt-5"
+                onClick={() =>
+                  router.push("/generate-logo?type=" + pricing.title)
+                }
+              >
+                {pricing.button}
+              </Button>
+            ): (
+              <SignInButton
+                mode="modal"
+                forceRedirectUrl={"/generate-logo?type=" + pricing.title}
+              >
+                <Button className="mt-5">Login to Generate</Button>
+              </SignInButton>
+            )}
           </div>
         ))}
       </div>
