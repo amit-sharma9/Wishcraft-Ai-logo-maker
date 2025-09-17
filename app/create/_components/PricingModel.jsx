@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function PricingModel({formdata}) {
     const { user } = useUser();
@@ -46,15 +47,10 @@ export default function PricingModel({formdata}) {
               ))}
             </div>
             {user ? (
-              <Button
-                className="mt-5"
-                onClick={() =>
-                  router.push("/generate-logo?type=" + pricing.title)
-                }
-              >
-                {pricing.button}
-              </Button>
-            ): (
+              <Link href={"/generate-logo?type=" + pricing.title}>
+                <Button className="mt-5">{pricing.button}</Button>
+              </Link>
+            ) : (
               <SignInButton
                 mode="modal"
                 forceRedirectUrl={"/generate-logo?type=" + pricing.title}

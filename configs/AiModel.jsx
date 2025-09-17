@@ -40,3 +40,25 @@ export const AIDesignIdea = model.startChat({
     },
   ],
 });
+
+export const AILogoPrompt = model.startChat({
+  generationConfig,
+  history: [
+    {
+      role: "user",
+      parts: [
+        {
+          text: "Generate a text prompt to create Logo for Logo Title/Brand name : Amit,with description: A simple logo, with Color combination of Ocean Blues, also include the Funny camel with sunglasses and include Cartoon Logo design idea and Referring to this Logo Prompt:Create a set of vibrant, playful logo designs featuring cartoon-style characters with puns or witty text. Each logo should include a cute anthropomorphic object, animal, or food item with expressive features like sunglasses, hats, or smiles, combined with a short, pun-based slogan. Use bold colors, clean lines, and retro aesthetics, ensuring the design is eye-catching and cheerful. Place each logo against a dark background to make the colors pop  Give me result in JSON portal with prompt field only\n",
+        },
+      ],
+    },
+    {
+      role: "model",
+      parts: [
+        {
+          text: '```json\n{\n  "prompt": "Create a vibrant, playful cartoon logo for the brand \\"Amit\\". The logo should feature a funny camel wearing sunglasses, designed in a cute, cartoon style with expressive features. The color palette should primarily consist of ocean blues. The overall design should be simple and eye-catching, utilizing clean lines. Place the logo against a dark background to emphasize the colors. Ensure the design incorporates the idea of a cheerful, retro aesthetic. This logo must include the word \\"Amit\\" as part of the design. The style should adhere to the idea of a character-based logo with a playful and witty feel, similar to examples where anthropomorphic objects, animals, or food items are used with expressive features and a short, pun-based slogan."\n}\n```\n',
+        },
+      ],
+    },
+  ],
+});
