@@ -20,7 +20,7 @@ export default function LogoTitle({ onHandleInputChange, formdata }) {
     <div className="my-10">
       <HeadingDesc title={Lookup?.LogoTitle} desc={Lookup.LogoTitleDesc} />
 
-      <input
+      <input required
         placeholder={Lookup.InputTitlePlaceholder}
         className="mt-5 p-4 w-full border rounded-lg"
         value={title}   // controlled input

@@ -2,9 +2,11 @@ import { AILogoPrompt } from "@/configs/AiModel";
 import { NextResponse } from "next/server";
 import FormData from "form-data";
 import axios from "axios";
+import { db } from "@/configs/FirebaseConfig";
+import { doc, setDoc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
 
 export async function POST(req) {
-  const { prompt } = await req.json();
+  const { prompt ,email, title, desc} = await req.json();
 
   try {
     // 1) create text prompt via your existing AILogoPrompt
@@ -39,20 +41,36 @@ export async function POST(req) {
     const mime = resp.headers["content-type"] || "image/png";
     const base64ImageWithMime = `data:${mime};base64,${base64}`;
 
+
+    
+    // Add the logo data to the user's document in Firebase
+    const logoData = {
+      image: base64ImageWithMime,
+      title: title,
+      desc: desc,
+      id: Date.now(),
+    };
+
+    const userDocRef = doc(db, "users", email);
+
+    // Check if the user document exists
+    const userDoc = await getDoc(userDocRef);
+
+    if (!userDoc.exists()) {
+      // Create the document if it doesn't exist
+      await setDoc(userDocRef, { logos: [logoData] });
+    } else {
+      // Update the document if it exists
+      await updateDoc(userDocRef, {
+        logos: arrayUnion(logoData),
+      });
+    }
+
     // 5) return same shape as before
     return NextResponse.json({ image: base64ImageWithMime });
   } catch (error) {
-    // prettier error logging
-    console.error(
-      "ClipDrop Error:",
-      error?.response?.data || error?.message || error
-    );
-    const status = error?.response?.status || 500;
-    const message = error?.response?.data
-      ? typeof error.response.data === "string"
-        ? error.response.data
-        : JSON.stringify(error.response.data)
-      : error?.message;
-    return NextResponse.json({ error: message }, { status });
+    
+     console.error("Error:", error);
+    return NextResponse.json({ error: error.message });
   }
 }
